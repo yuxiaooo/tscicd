@@ -124,6 +124,34 @@ npm audit --audit-level=high || {
     print_warning "Security vulnerabilities found (non-blocking)"
 }
 
+# Optional: Test Docker builds if Docker is available
+echo ""
+echo "=================================================="
+echo "🐳 OPTIONAL: Docker Build Test"
+echo "=================================================="
+
+if command -v docker &> /dev/null; then
+    print_step "Test Docker build for backend"
+    docker build -f packages/backend/Dockerfile -t test-backend:latest . || {
+        print_error "Backend Docker build failed"
+        exit 1
+    }
+    print_success "Backend Docker image built"
+
+    print_step "Test Docker build for frontend"
+    docker build -f packages/frontend/Dockerfile -t test-frontend:latest . || {
+        print_error "Frontend Docker build failed"
+        exit 1
+    }
+    print_success "Frontend Docker image built"
+    
+    # Cleanup test images
+    docker rmi test-backend:latest test-frontend:latest 2>/dev/null || true
+else
+    print_warning "Docker not installed - skipping Docker build tests"
+    echo "To test Docker builds, install Docker and run again"
+fi
+
 echo ""
 echo "=================================================="
 echo "🎊 All CI/CD checks completed successfully!"
