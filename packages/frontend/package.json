@@ -8,7 +8,7 @@
     "build": "vite build",
     "build:check": "vue-tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest --run --passWithNoTests",
     "test:ui": "vitest --ui",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "type-check": "tsc --noEmit",
