@@ -86,7 +86,7 @@ jobs:
         npx vite-bundle-analyzer dist --mode static --report-filename bundle-report.html
         
     - name: Upload bundle analysis
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: bundle-analysis
         path: packages/frontend/bundle-report.html
