@@ -115,7 +115,7 @@ jobs:
         npm run lint --workspace=frontend -- --format=@microsoft/eslint-formatter-sarif --output-file frontend-eslint.sarif || true
 
     - name: Upload ESLint results
-      uses: github/codeql-action/upload-sarif@v3
+      uses: github/codeql-action/upload-sarif@v4
       if: always()
       with:
         sarif_file: |
