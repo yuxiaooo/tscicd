@@ -1,0 +1,123 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # Validate PR
+  validate:
+    name: Validate Pull Request
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build shared types
+      run: npm run build --workspace=shared
+
+    - name: Lint all packages
+      run: npm run lint
+
+    - name: Test all packages
+      run: npm run test
+
+    - name: Build all packages
+      run: npm run build
+
+    - name: Check for type errors
+      run: npm run type-check --workspace=frontend
+
+  # Check for breaking changes
+  breaking-changes:
+    name: Check Breaking Changes
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Check for breaking changes in API
+      run: |
+        # Compare API routes and shared types
+        git diff origin/main...HEAD --name-only | grep -E "(packages/backend/src/routes|packages/shared/src/types)" || echo "No API changes detected"
+
+  # Performance check
+  performance:
+    name: Performance Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build frontend
+      run: npm run build --workspace=frontend
+
+    - name: Analyze bundle size
+      run: |
+        cd packages/frontend
+        npx vite-bundle-analyzer dist --mode static --report-filename bundle-report.html
+        
+    - name: Upload bundle analysis
+      uses: actions/upload-artifact@v4
+      with:
+        name: bundle-analysis
+        path: packages/frontend/bundle-report.html
+
+  # Code quality
+  code-quality:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run ESLint with annotations
+      run: |
+        npm run lint --workspace=backend -- --format=@microsoft/eslint-formatter-sarif --output-file backend-eslint.sarif || true
+        npm run lint --workspace=frontend -- --format=@microsoft/eslint-formatter-sarif --output-file frontend-eslint.sarif || true
+
+    - name: Upload ESLint results
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: |
+          backend-eslint.sarif
+          frontend-eslint.sarif

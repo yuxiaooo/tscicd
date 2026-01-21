@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: packages/backend/Dockerfile
+    container_name: fullstack-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - fullstack-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: packages/frontend/Dockerfile
+    container_name: fullstack-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - fullstack-network
+
+networks:
+  fullstack-network:
+    driver: bridge
+
+# For development with hot reload
+---
+version: '3.8'
+
+services:
+  backend-dev:
+    build:
+      context: .
+      dockerfile: packages/backend/Dockerfile.dev
+    container_name: fullstack-backend-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - ./packages/backend/src:/app/packages/backend/src
+      - ./packages/shared/src:/app/packages/shared/src
+    networks:
+      - fullstack-network
+    command: npm run dev
+
+  frontend-dev:
+    build:
+      context: .
+      dockerfile: packages/frontend/Dockerfile.dev
+    container_name: fullstack-frontend-dev
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./packages/frontend/src:/app/packages/frontend/src
+      - ./packages/shared/src:/app/packages/shared/src
+    networks:
+      - fullstack-network
+    command: npm run dev
+
+networks:
+  fullstack-network:
+    driver: bridge
