@@ -39,6 +39,28 @@ npm run dev
 - `npm run build` - Build all packages
 - `npm run test` - Run tests for all packages
 - `npm run lint` - Lint all packages
+- `./test-ci-local.sh` - **Run complete CI/CD pipeline locally** ✨
+
+## Testing CI/CD Locally
+
+Before pushing to GitHub, you can test the entire CI/CD pipeline locally:
+
+```bash
+# Run the complete CI/CD test suite
+./test-ci-local.sh
+```
+
+This script will:
+1. ✅ Install dependencies with clean state (npm ci simulation)
+2. ✅ Build shared types
+3. ✅ Lint backend and frontend
+4. ✅ Run all tests
+5. ✅ Type check frontend
+6. ✅ Build all packages
+7. ✅ Verify build artifacts
+8. ✅ Run security audit
+
+**This ensures your code will pass GitHub Actions before pushing!**
 
 ## Tech Stack
 
