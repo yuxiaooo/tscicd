@@ -10,11 +10,11 @@
         </div>
       </div>
     </nav>
-    
+
     <main class="main-content">
       <RouterView />
     </main>
-    
+
     <footer class="footer">
       <p>&copy; 2024 TypeScript Fullstack CI/CD Demo</p>
     </footer>
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <style scoped>
@@ -30,7 +30,7 @@ import { RouterLink, RouterView } from 'vue-router'
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .nav-container {

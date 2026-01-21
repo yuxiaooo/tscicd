@@ -5,7 +5,7 @@
       <p>A modern monorepo with Vue.js, Express.js, and CI/CD</p>
       <div class="hero-actions">
         <RouterLink to="/users" class="btn">View Users</RouterLink>
-        <button @click="checkHealth" class="btn" :disabled="loading">
+        <button class="btn" :disabled="loading" @click="checkHealth">
           <span v-if="loading" class="loading"></span>
           <span v-else>Check Backend Health</span>
         </button>
@@ -15,7 +15,9 @@
     <div class="features">
       <div class="feature-card">
         <h3>🚀 Vue.js 3</h3>
-        <p>Modern frontend framework with Composition API and TypeScript support</p>
+        <p>
+          Modern frontend framework with Composition API and TypeScript support
+        </p>
       </div>
       <div class="feature-card">
         <h3>⚡ Express.js</h3>
@@ -43,28 +45,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
-import { apiService } from '../services/api'
+import { ref } from "vue";
+import { RouterLink } from "vue-router";
+import { apiService } from "../services/api";
 
-const loading = ref(false)
-const healthStatus = ref(null)
-const error = ref('')
+const loading = ref(false);
+const healthStatus = ref(null);
+const error = ref("");
 
 const checkHealth = async () => {
-  loading.value = true
-  error.value = ''
-  
+  loading.value = true;
+  error.value = "";
+
   try {
-    const response = await apiService.checkHealth()
-    healthStatus.value = response.data
+    const response = await apiService.checkHealth();
+    healthStatus.value = response.data;
   } catch (err) {
-    error.value = 'Failed to connect to backend. Make sure the server is running on port 3000.'
-    console.error('Health check failed:', err)
+    error.value =
+      "Failed to connect to backend. Make sure the server is running on port 3000.";
+    console.error("Health check failed:", err);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 </script>
 
 <style scoped>

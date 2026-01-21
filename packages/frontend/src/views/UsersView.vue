@@ -2,7 +2,7 @@
   <div class="users">
     <div class="header">
       <h1>Users Management</h1>
-      <button @click="loadUsers" class="btn" :disabled="loading">
+      <button class="btn" :disabled="loading" @click="loadUsers">
         <span v-if="loading" class="loading"></span>
         <span v-else>Refresh Users</span>
       </button>
@@ -35,7 +35,7 @@
         </div>
         <button type="submit" class="btn" :disabled="creating">
           <span v-if="creating" class="loading"></span>
-          <span v-else">Add User</span>
+          <span v-else>Add User</span>
         </button>
       </form>
     </div>
@@ -44,7 +44,7 @@
       <div v-if="users.length === 0 && !loading" class="card">
         <p>No users found. Add some users to get started!</p>
       </div>
-      
+
       <div v-for="user in users" :key="user.id" class="user-card card">
         <div class="user-info">
           <h3>{{ user.name }}</h3>
@@ -52,7 +52,7 @@
           <small>ID: {{ user.id }}</small>
         </div>
         <div class="user-actions">
-          <button @click="viewUser(user.id)" class="btn">View</button>
+          <button class="btn" @click="viewUser(user.id)">View</button>
         </div>
       </div>
     </div>
@@ -60,64 +60,64 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { apiService } from '../services/api'
-import type { User } from '@shared/types'
+import { ref, onMounted } from "vue";
+import { apiService } from "../services/api";
+import type { User } from "@shared/types";
 
-const users = ref<User[]>([])
-const loading = ref(false)
-const creating = ref(false)
-const error = ref('')
+const users = ref<User[]>([]);
+const loading = ref(false);
+const creating = ref(false);
+const error = ref("");
 
 const newUser = ref({
-  name: '',
-  email: ''
-})
+  name: "",
+  email: "",
+});
 
 const loadUsers = async () => {
-  loading.value = true
-  error.value = ''
-  
+  loading.value = true;
+  error.value = "";
+
   try {
-    const response = await apiService.getUsers()
-    users.value = response.data.data
+    const response = await apiService.getUsers();
+    users.value = response.data.data;
   } catch (err) {
-    error.value = 'Failed to load users. Make sure the backend is running.'
-    console.error('Failed to load users:', err)
+    error.value = "Failed to load users. Make sure the backend is running.";
+    console.error("Failed to load users:", err);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const createUser = async () => {
-  creating.value = true
-  error.value = ''
-  
+  creating.value = true;
+  error.value = "";
+
   try {
-    const response = await apiService.createUser(newUser.value)
-    users.value.push(response.data.data)
-    newUser.value = { name: '', email: '' }
+    const response = await apiService.createUser(newUser.value);
+    users.value.push(response.data.data);
+    newUser.value = { name: "", email: "" };
   } catch (err) {
-    error.value = 'Failed to create user.'
-    console.error('Failed to create user:', err)
+    error.value = "Failed to create user.";
+    console.error("Failed to create user:", err);
   } finally {
-    creating.value = false
+    creating.value = false;
   }
-}
+};
 
 const viewUser = async (id: string) => {
   try {
-    const response = await apiService.getUser(id)
-    alert(`User Details:\n${JSON.stringify(response.data.data, null, 2)}`)
+    const response = await apiService.getUser(id);
+    alert(`User Details:\n${JSON.stringify(response.data.data, null, 2)}`);
   } catch (err) {
-    error.value = 'Failed to load user details.'
-    console.error('Failed to load user:', err)
+    error.value = "Failed to load user details.";
+    console.error("Failed to load user:", err);
   }
-}
+};
 
 onMounted(() => {
-  loadUsers()
-})
+  loadUsers();
+});
 </script>
 
 <style scoped>
@@ -194,13 +194,13 @@ onMounted(() => {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .user-card {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
   }
-  
+
   .user-actions {
     justify-content: center;
   }

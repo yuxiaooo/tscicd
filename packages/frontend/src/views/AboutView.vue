@@ -3,9 +3,10 @@
     <div class="card">
       <h1>About This Project</h1>
       <p>
-        This is a demonstration of a modern TypeScript fullstack application built with:
+        This is a demonstration of a modern TypeScript fullstack application
+        built with:
       </p>
-      
+
       <div class="tech-stack">
         <div class="tech-section">
           <h3>Frontend</h3>
@@ -18,7 +19,7 @@
             <li>Axios for HTTP requests</li>
           </ul>
         </div>
-        
+
         <div class="tech-section">
           <h3>Backend</h3>
           <ul>
@@ -30,7 +31,7 @@
             <li>Health check endpoints</li>
           </ul>
         </div>
-        
+
         <div class="tech-section">
           <h3>DevOps & CI/CD</h3>
           <ul>
@@ -43,7 +44,7 @@
           </ul>
         </div>
       </div>
-      
+
       <div class="project-structure">
         <h3>Project Structure</h3>
         <pre><code>typescript-fullstack-cicd/
@@ -68,29 +69,42 @@
 ├── package.json            # Root workspace config
 └── README.md</code></pre>
       </div>
-      
+
       <div class="features">
         <h3>Key Features</h3>
         <div class="feature-grid">
           <div class="feature">
             <h4>🔧 Monorepo Structure</h4>
-            <p>Organized codebase with npm workspaces for better dependency management</p>
+            <p>
+              Organized codebase with npm workspaces for better dependency
+              management
+            </p>
           </div>
           <div class="feature">
             <h4>🎯 Type Safety</h4>
-            <p>End-to-end TypeScript for better developer experience and fewer bugs</p>
+            <p>
+              End-to-end TypeScript for better developer experience and fewer
+              bugs
+            </p>
           </div>
           <div class="feature">
             <h4>🚀 Modern Tooling</h4>
-            <p>Latest versions of Vue 3, Vite, and Express with best practices</p>
+            <p>
+              Latest versions of Vue 3, Vite, and Express with best practices
+            </p>
           </div>
           <div class="feature">
             <h4>🔄 CI/CD Pipeline</h4>
-            <p>Automated testing, building, and deployment with GitHub Actions</p>
+            <p>
+              Automated testing, building, and deployment with GitHub Actions
+            </p>
           </div>
           <div class="feature">
             <h4>🐳 Containerization</h4>
-            <p>Docker support for consistent development and production environments</p>
+            <p>
+              Docker support for consistent development and production
+              environments
+            </p>
           </div>
           <div class="feature">
             <h4>📱 Responsive Design</h4>
@@ -155,7 +169,7 @@
 }
 
 .project-structure code {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
   font-size: 0.9rem;
   line-height: 1.4;
 }
